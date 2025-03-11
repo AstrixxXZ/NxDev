@@ -1,0 +1,518 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+div {
+    font-family: "Roboto", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background: #dc143c;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 75vh;
+    width: 40vw;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.garage-header {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: left;
+    color: #fafafa;
+}
+
+.garage-logo {
+    margin-left: auto;
+    margin-bottom: 20px;
+}
+
+.vehicle-table {
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.vehicle-item {
+    background: #0a0a0a;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transform: translateZ(0);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vehicle-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.15), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(0); opacity: 0.5; }
+    100% { transform: translateX(100%); opacity: 0; }
+}
+
+.vehicle-item:hover {
+    transform: translateY(-8px) translateZ(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(220, 20, 60, 0.3);
+}
+
+.vehicle-info {
+    background: linear-gradient(90deg, #111 0%, #1a1a1a 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #fafafa;
+    padding: 15px;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vehicle-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, rgba(220, 20, 60, 0.15), transparent);
+    transition: width 0.5s ease;
+}
+
+.vehicle-item:hover .vehicle-info::before {
+    width: 100%;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.6; }
+}
+
+.plate,
+.mileage,
+.vehicle-name {
+    margin: 0;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.vehicle-name {
+    text-align: left;
+    font-weight: 700;
+    font-size: 1.15em;
+    color: #fff;
+    padding-left: 15px;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.vehicle-name::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 20px;
+    width: 5px;
+    background: #dc143c;
+    border-radius: 4px;
+    transform: translateY(-50%) scaleY(0.6);
+    transition: all 0.4s ease;
+}
+
+.vehicle-item:hover .vehicle-name {
+    color: #dc143c;
+    padding-left: 18px;
+    text-shadow: 0 0 5px rgba(220, 20, 60, 0.4);
+}
+
+.vehicle-item:hover .vehicle-name::before {
+    transform: translateY(-50%) scaleY(1);
+    box-shadow: 0 0 10px rgba(220, 20, 60, 0.7);
+    animation: glowPulse 1.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 5px rgba(220, 20, 60, 0.4); }
+    100% { box-shadow: 0 0 15px rgba(220, 20, 60, 0.8); }
+}
+
+.plate {
+    text-align: center;
+    background: #000;
+    border-radius: 5px;
+    padding: 6px 10px;
+    max-width: fit-content;
+    margin: 0 auto;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.plate::before, .plate::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(220, 20, 60, 0.1);
+    top: -10px;
+    transform: scale(0);
+    transition: all 0.5s ease;
+}
+
+.plate::before {
+    left: -10px;
+}
+
+.plate::after {
+    right: -10px;
+}
+
+.vehicle-item:hover .plate {
+    background: #111;
+    border-color: #dc143c;
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
+    transform: translateY(-3px) rotateX(10deg);
+}
+
+.vehicle-item:hover .plate::before, .vehicle-item:hover .plate::after {
+    transform: scale(1.5);
+}
+
+.mileage {
+    text-align: right;
+    font-size: 0.9em;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.mileage::before {
+    content: '🛣️';
+    margin-right: 5px;
+    font-size: 1.1em;
+    opacity: 0;
+    transform: translateX(10px) rotateY(90deg);
+    transition: all 0.5s ease;
+}
+
+.vehicle-item:hover .mileage::before {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+}
+
+.vehicle-item:hover .mileage {
+    color: #dc143c;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 15px auto 10px;
+    padding: 0 10px;
+}
+
+.stat {
+    flex: 0 0 calc(33.333% - 15px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 5px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-item:hover .stat {
+    transform: translateY(-3px);
+}
+
+.label {
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 0.9em;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.vehicle-item:hover .label {
+    color: #dc143c;
+    text-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
+    animation: labelPulse 1.5s infinite alternate;
+}
+
+@keyframes labelPulse {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: rgba(20, 20, 20, 0.6);
+    border-radius: 8px;
+    height: 22px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.vehicle-item:hover .progress-bar {
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7), 0 0 10px rgba(220, 20, 60, 0.2);
+}
+
+.progress-text {
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-weight: 600;
+    z-index: 10;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.vehicle-item:hover .progress-text {
+    transform: translate(-50%, -50%) scale(1.05);
+    letter-spacing: 0.5px;
+}
+
+.progress-bar span {
+    display: block;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progress-bar span::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-bar span.bar-green {
+    background: linear-gradient(135deg, #388e3c, #4caf50, #388e3c);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.vehicle-item:hover .progress-bar span.bar-green {
+    animation: pulsateGreen 1.5s infinite alternate;
+}
+
+@keyframes pulsateGreen {
+    0% { background-position: 0% 50%; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+    100% { background-position: 100% 50%; box-shadow: 0 0 20px rgba(76, 175, 80, 0.7); }
+}
+
+.progress-bar span.bar-yellow {
+    background: linear-gradient(135deg, #e6a700, #ffc107, #e6a700);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.vehicle-item:hover .progress-bar span.bar-yellow {
+    animation: pulsateYellow 1.5s infinite alternate;
+}
+
+@keyframes pulsateYellow {
+    0% { background-position: 0% 50%; box-shadow: 0 0 10px rgba(255, 193, 7, 0.5); }
+    100% { background-position: 100% 50%; box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); }
+}
+
+.progress-bar span.bar-red {
+    background: linear-gradient(135deg, #c62828, #e53935, #c62828);
+    box-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
+}
+
+.vehicle-item:hover .progress-bar span.bar-red {
+    animation: pulsateRed 1.5s infinite alternate;
+}
+
+@keyframes pulsateRed {
+    0% { background-position: 0% 50%; box-shadow: 0 0 10px rgba(229, 57, 53, 0.5); }
+    100% { background-position: 100% 50%; box-shadow: 0 0 20px rgba(229, 57, 53, 0.7); }
+}
+
+/* Custom icons for each stat */
+.stat:nth-child(1) .label::before {
+    content: '⛽';
+    margin-right: 5px;
+    font-size: 0.9em;
+    opacity: 0;
+    transform: scale(0);
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+.stat:nth-child(2) .label::before {
+    content: '🔧';
+    margin-right: 5px;
+    font-size: 0.9em;
+    opacity: 0;
+    transform: scale(0);
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+.stat:nth-child(3) .label::before {
+    content: '🛡️';
+    margin-right: 5px;
+    font-size: 0.9em;
+    opacity: 0;
+    transform: scale(0);
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+.vehicle-item:hover .stat .label::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.finance-drive-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px 10px;
+}
+
+.finance-info {
+    color: #ffffff;
+    font-size: 13.3px;
+    background: linear-gradient(to right, #1a1a1a, #dc143c);
+    margin-top: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(220, 20, 60, 0.4);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.finance-info::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    animation: sweep 2s infinite;
+}
+
+@keyframes sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.drive-btn {
+    font-family: "Roboto", sans-serif;
+    color: #ffffff;
+    background: linear-gradient(to right, #1a1a1a, #dc143c);
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.drive-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: all 0.3s ease;
+}
+
+.drive-btn:hover {
+    background: linear-gradient(to right, #dc143c, #ff3352);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.5);
+    transform: translateY(-2px);
+}
+
+.drive-btn:hover::after {
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+}
+
+.drive-btn:disabled {
+    background: linear-gradient(to right, #222, #444);
+    box-shadow: none;
+    cursor: not-allowed;
+}
